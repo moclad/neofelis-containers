@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  backup:
+    container_name: backup-worker
+    # In production, it is advised to lock your image tag to a proper
+    # release version instead of using `latest`.
+    # Check https://github.com/offen/docker-volume-backup/releases
+    # for a list of available releases.
+    image: offen/docker-volume-backup:v2.25.0
+    restart: always
+    environment:
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_ENDPOINT=${AWS_ENDPOINT}
+      - AWS_ENDPOINT_PROTO=${AWS_ENDPOINT_PROTO}
+    volumes:
+      - ./configuration/:/etc/dockervolumebackup/conf.d
+      - timescale_data:/backup/timescale_data:ro
+      - sbrubbles_grafana_data:/backup/sbrubbles_grafana_data:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+volumes:
+  timescale_data:
+    external: true
+  sbrubbles_grafana_data:
+    external: true
+
+networks:
+  default:
+    name: traefik_external
+    external: true

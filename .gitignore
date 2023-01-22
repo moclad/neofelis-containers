@@ -45,3 +45,4 @@ npm-debug.log*
 dist/
 
 graphql-engine.tix
+traefik/logs/access.log

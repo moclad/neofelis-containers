@@ -1,0 +1,60 @@
+version: '3.5'
+
+services:
+  reverse-proxy:
+    image: "traefik:v3.0.0-beta2"
+    container_name: traefik-reverse-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt/acme.json:/letsencrypt/acme.json"
+      - "./logs:/logs"
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    command:
+      - --log.level=INFO
+      - --accesslog=true
+      - --accesslog.bufferingsize=100
+      - --accesslog.format=json
+      - --accesslog.filters.statuscodes=200,300-302,400,401
+      - --accesslog.filters.retryattempts
+      - --accesslog.filters.minduration=10ms
+      - --accesslog.filepath=/logs/access.log
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesresolvers.myresolver.acme.email=${EMAIL}
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - --tracing.jaeger=true
+      - --tracing.jaeger.samplingServerURL=http://monitoring-jaeger:5778/sampling
+      - --tracing.jaeger.samplingType=const
+      - --tracing.jaeger.samplingParam=1.0
+      - --tracing.jaeger.localAgentHostPort=monitoring-jaeger:6831
+      - --tracing.jaeger.propagation=jaeger
+      - --tracing.jaeger.traceContextHeaderName=neofelis-trace-id
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "traefik-whoami"
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=PathPrefix(`/whoami`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+
+networks:
+  default:
+    name: traefik_external
+    external: true

@@ -1,0 +1,6 @@
+version: 3
+endpoint: http://sbrubbles-srv3:9080
+metadata_directory: metadata
+actions:
+  kind: synchronous
+  handler_webhook_baseurl: http://sbrubbles-srv3:9000
