@@ -46,3 +46,4 @@ dist/
 
 graphql-engine.tix
 traefik/logs/access.log
+monitoring/alertmanager/config.yml
