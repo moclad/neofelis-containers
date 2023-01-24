@@ -15,8 +15,11 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_ENDPOINT=${AWS_ENDPOINT}
       - AWS_ENDPOINT_PROTO=${AWS_ENDPOINT_PROTO}
+      - NOTIFICATION_URLS=${NOTIFICATION_URLS}
+      - NOTIFICATION_LEVEL=info
     volumes:
       - ./configuration/:/etc/dockervolumebackup/conf.d
+      - ./notification/:/etc/dockervolumebackup/notifications.d/
       - timescale_data:/backup/timescale_data:ro
       - sbrubbles_grafana_data:/backup/sbrubbles_grafana_data:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro

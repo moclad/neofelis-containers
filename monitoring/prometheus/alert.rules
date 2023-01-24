@@ -39,6 +39,18 @@ groups:
       summary: "Server storage is almost full"
       description: "Docker host storage usage is {{ humanize $value}}%. Reported by instance {{ $labels.instance }} of job {{ $labels.job }}."
 
+- name: backup
+  rules:
+  - alert: offen_server_down
+    expr: absent(container_memory_usage_bytes{name="backup-worker"})
+    for: 60s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Offen Backup Server Down"
+      description: "Offen Backup Server container is down for more than 30 seconds."
+
+
 - name: neofelis
   rules:
   - alert: neofelis_server_down
