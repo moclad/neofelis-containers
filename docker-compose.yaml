@@ -127,7 +127,7 @@ services:
       - GF_SERVER_ROUTER_LOGGING=false
       - GF_LOG_CONSOLE_FORMAT=json
       - GF_LOG_FILTERS=alerting.notifier:debug,alerting.notifier.slack:debug,auth:debug
-      - GF_AUTH_TOKEN_ROTATION_INTERVAL_MINUTES=2
+      - GF_AUTH_TOKEN_ROTATION_INTERVAL_MINUTES=10
       - GF_PLUGINS_ENABLE_ALPHA=true
     labels:
       org.label-schema.group: "monitoring"
@@ -143,6 +143,7 @@ services:
       TZ: TIMEZONE=${TZ_REGION}
       MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
       MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+      MINIO_PROMETHEUS_AUTH_TYPE: PUBLIC
     volumes:
       - minio-data:/data
     command: server /data --console-address ":9092"

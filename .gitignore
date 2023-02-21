@@ -49,3 +49,10 @@ dist/
 graphql-engine.tix
 traefik/logs/access.log
 monitoring/alertmanager/config.yml
+traefik/data/logs/access.log
+traefik/data/acme.json
+mqtt/config/password_file
+.gitignore
+mqtt/config/mosquitto.conf
+mqtt/logs/mosquitto.log
+rtl-433/rtl_433.conf

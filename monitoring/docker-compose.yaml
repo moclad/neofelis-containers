@@ -107,11 +107,27 @@ services:
       traefik.http.routers.jaeger.rule: PathPrefix(`/jaeger`)
       traefik.http.routers.jaeger.entrypoints: web
       traefik.http.services.jaeger.loadbalancer.server.port: 16686
+      # whatsupdocker:
+      # image: fmartinou/whats-up-docker
+      # container_name: monitoring-wud
+      # volumes:
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # - wud-store:/store
+      # environment:
+      # - WUD_AUTH_BASIC_MOCLAD_USER=moclad
+      # - WUD_AUTH_BASIC_MOCLAD_HASH=$$apr1$$MGriEtUk$$q5gjhPCs/RN/MfY38Pusa.
+      # - WUD_WATCHER_LOCAL_CRON=0 4 * * *
+      # - WUD_TRIGGER_SLACK_NEOFELIS_TOKEN=T04J05FM2VA-B04P5BB9CGM-TDxK7TNXgh06c59fUrEd833z
+      # - WUD_TRIGGER_SLACK_NEOFELIS_CHANNEL=docker
+      # ports:
+      # - 3500:3000
 
 volumes:
   prometheus_data:
     name: sbrubbles_prometheus_data
     external: true
+  wud-store:
+    name: wud-store
 
 networks:
   traefik:

@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0.15
+    container_name: mqtt-mosquitto
+    volumes:
+      - ./config/:/mosquitto/config/:ro
+      - ./logs/:/mosquitto/log/
+      - mosquitto-data:/mosquitto/data/
+    ports:
+      - 1883:1883
+      - 9001:9001
+
+volumes:
+  mosquitto-data:
+
+
+networks:
+  default:
+    name: traefik_external
+    external: true

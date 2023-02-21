@@ -7,7 +7,7 @@ services:
     # release version instead of using `latest`.
     # Check https://github.com/offen/docker-volume-backup/releases
     # for a list of available releases.
-    image: offen/docker-volume-backup:v2.25.0
+    image: offen/docker-volume-backup:v2.25.1
     restart: always
     environment:
       - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
@@ -21,7 +21,7 @@ services:
       - ./configuration/:/etc/dockervolumebackup/conf.d
       - ./notification/:/etc/dockervolumebackup/notifications.d/
       - timescale_data:/backup/timescale_data:ro
-      - sbrubbles_grafana_data:/backup/sbrubbles_grafana_data:ro
+      - sbrubbles_grafana_data:/backup/grafana_data:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
 volumes:
