@@ -1,22 +1,19 @@
 version: '3.3'
 
 services:
-  nodered:
-    container_name: automation-nodered
-    image: nodered/node-red
-    restart: unless-stopped
-    user: "0"
-    privileged: true
+  node-red:
+    image: nodered/node-red:latest
+    container_name: automation-node-red
     environment:
       - TZ=Europe/Berlin
     ports:
-      - 1880:1880
+      - "1880:1880"
     volumes:
-      - nodered-data:/data
+      - node-red-data:/data
 
 volumes:
-  nodered-data:
-
+  node-red-data:
+    name: node-red-data
 
 networks:
   default:

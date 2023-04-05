@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   neofelis-server:
-    image: "neofelis-server:1.16"
+    image: "neofelis-server:1.26"
     container_name: "neofelis-server"
     env_file: ./.env
     restart: always
